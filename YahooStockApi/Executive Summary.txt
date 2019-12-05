@@ -1,0 +1,4 @@
+This project will be dedicted to learning about how (web?) servers work. 
+I hope to understand more fundamentals used in Nodejs, python, or some other language dedicated to this purpose.
+
+Might be a part of my larger project of some basic financial app
