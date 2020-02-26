@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QToolBar>
+#include <QBarSet>
 #include "div_toolbar.h"
 
 namespace Ui {
@@ -20,6 +21,7 @@ public:
 //    void handleButton();
 private:
     div_ToolBar * sidebar;
+
 private:
     Ui::MainWindow *ui;
 };

@@ -5,4 +5,45 @@ body {
 
 h1 {
     color: gray;
+    float: left;
+    margin-left: 800px;
+}
+
+#loginDiv {
+    border-style: outset;
+    color: black;
+    float: right;
+}
+
+#AddStockDiv {
+    float: right;
+    width: 300px;
+    padding: 50px;
+    margin-right: 500px;
+}
+
+#LoginButton {
+    cursor: pointer;
+    padding: 20px;
+    background-color: white;
+    color: darkgreen;
+}
+
+#AddStockButton {
+    padding: 5px;
+    margin: 5px;
+    width: 100px;
+    cursor: pointer;
+    background-color: white;
+    color: darkgreen;
+    float: right;
+}
+
+#AddStockButton:hover {
+    opacity: .8;
+}
+
+#TickerInput {
+    float: right;
+    width: 100px;
 }
