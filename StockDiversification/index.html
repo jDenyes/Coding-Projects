@@ -15,13 +15,13 @@
 
     <div id="AddStockDiv">
         <button id="AddStockButton">AddStock</button><br><br>
-        <div id="StockInput">
-            <label id = "TickerLabel" for="TickerInput">Ticker</label>
-            <input type="text" id="TickerInput">
-            <input id = "TickerSubmit" type="submit" value="Submit">
-        </div>
-
+        <form action="/" method="post">
+            <div id="StockInput">
+                <label id = "TickerLabel" for="TickerInput">Ticker</label>
+                <input type="text" name="TickerSymbol" id="TickerInput">
+                <input type="submit" value="Submit" id = "TickerSubmit">
+            </div>
+        </form>
     </div>
-
 </body>
 </html>
