@@ -34,14 +34,25 @@ var AAPI = {
                     // console.log(JsonObject);
                     let CurrentDate = this.GetTodaysDate();
                     // console.log(JsonObject['Time Series (Daily)']);
-                    var result = JsonObject['Time Series (Daily)'][CurrentDate]['4. close'];
+                    let TodaysData = JsonObject['Time Series (Daily)'][CurrentDate];
 
-                    if(result != undefined) {
-                        callback(result);
-                    } else {
-                        console.log("entering error state");
-                        console.log("Invalid Input");
-                    }
+                    do {
+                        
+                        if(TodaysData != undefined) {
+                            var result = TodaysData['4. close'];
+
+                            if(result != undefined) {
+                                callback(result);
+                            } else {
+                                console.log("entering error state");
+                                console.log("Invalid Input");
+                            }
+                        }
+
+                    } (while )
+
+
+
                 } else {
                     console.log("Invalid Input");
                 }
@@ -96,6 +107,7 @@ var AAPI = {
                 year = year - 1;
             }
         }
+        return this.calculateDateString(day, month, year);
     },
 
     GetTodaysDate: function() {
