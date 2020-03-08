@@ -62,7 +62,6 @@ var AAPI = {
     },
 
     GetHistoricalStockData: function(url, callback) {
-
         const AllData = https.request(url, (res) => {
             let data = '';
 
@@ -70,31 +69,18 @@ var AAPI = {
                 data += chunk;
             });
 
-            // var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 13];
-
             res.on('end', () => {
                 var JsonObject = JSON.parse(data);
-                // var Date = '';
-                // var year = '2019';
-                // for(var month = 1; month < 13; month++) {
-                // for(var day = 1; day < daysInMonth[month - 1] + 1; day++) {
-                // Date = calculateDateString(day, month, year);
                 var result = JsonObject['Time Series (Daily)'];
                 if(result != undefined) {
                     callback(result);
                 }
-                // }
             });
 
             AllData.on('error', (e) => {
                 console.error(e);
             });
         });
-    },
-
-    //only used for debug purposes
-    AlphaCallBack: function(thisData) {
-        console.log(thisData);
     },
 
     GoBackOneDay: function(date) {
@@ -114,15 +100,6 @@ var AAPI = {
         return new Date(year, month, day);
     },
 
-    // GetTodaysDate: function() {
-    //     let CurrentDate = new Date(); 
-    //     // day = CurrentDate.getDate();
-    //     // month = CurrentDate.getMonth() +1;
-    //     // year = CurrentDate.getFullYear();
-    //     // return new Date(day, month, year);
-    //     return this.calculateDateString(day, month, year);
-    // },
-
     Date2AapiDate: function(date) {
         day = date.getDate()
         month = date.getMonth() + 1;
@@ -139,7 +116,5 @@ var AAPI = {
         return year + '-' + monthString + '-' + dayString;
     },
 }
-
-// AllData.end();
 
 module.exports = AAPI;
