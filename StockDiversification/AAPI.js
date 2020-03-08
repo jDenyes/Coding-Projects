@@ -10,9 +10,8 @@
 // const url = 
 // var temp1 = getCurrentStockPrice(url, AlphaCallBack);
 
-
 var AAPI = {
-    GetCurrentStockPrice: function(url, callback) {
+    GetCurrentStockPrice: function(url, next, htmlRes) {
         const https = require('https');
         // const request   = require('request');
 
@@ -31,30 +30,30 @@ var AAPI = {
                     console.log(JsonObject['Error Message']);
                 }
                 if(JsonObject != undefined) {
-                    // console.log(JsonObject);
-                    let CurrentDate = this.GetTodaysDate();
-                    // console.log(JsonObject['Time Series (Daily)']);
-                    let TodaysData = JsonObject['Time Series (Daily)'][CurrentDate];
-
+                    let TodaysData = 0;
+                    let CurrentDate = new Date();
+                    let DateString = this.Date2AapiDate(CurrentDate);
+                    
                     do {
-                        
+                        TodaysData = JsonObject['Time Series (Daily)'][DateString];
                         if(TodaysData != undefined) {
                             var result = TodaysData['4. close'];
 
                             if(result != undefined) {
-                                callback(result);
+                                next(result, htmlRes);
                             } else {
-                                console.log("entering error state");
-                                console.log("Invalid Input");
+                                console.log("entering  errorstate, API call is out of date");
+                                while(1);
                             }
+                        } else {
+                            CurrentDate = this.GoBackOneDay(CurrentDate);
+                            DateString = this.Date2AapiDate(CurrentDate);
+                            console.log(DateString);
                         }
-
-                    } (while )
-
-
+                    } while(result == undefined); 
 
                 } else {
-                    console.log("Invalid Input");
+                    console.log("No JSON data received");
                 }
             });
         });
@@ -93,11 +92,16 @@ var AAPI = {
         });
     },
 
+    //only used for debug purposes
     AlphaCallBack: function(thisData) {
         console.log(thisData);
     },
 
-    GoBackOneDay: function(day, month, year) {
+    GoBackOneDay: function(date) {
+        day = date.getDate()
+        month = date.getMonth();
+        year = date.getFullYear();
+
         if(day > 1) {
             day = day - 1;
         } else {
@@ -107,18 +111,23 @@ var AAPI = {
                 year = year - 1;
             }
         }
-        return this.calculateDateString(day, month, year);
+        return new Date(year, month, day);
     },
 
-    GetTodaysDate: function() {
-        let CurrentDate = new Date(); 
-        day = CurrentDate.getDate();
-        month = CurrentDate.getMonth() +1;
-        year = CurrentDate.getFullYear();
-        return this.calculateDateString(day, month, year);
-    },
+    // GetTodaysDate: function() {
+    //     let CurrentDate = new Date(); 
+    //     // day = CurrentDate.getDate();
+    //     // month = CurrentDate.getMonth() +1;
+    //     // year = CurrentDate.getFullYear();
+    //     // return new Date(day, month, year);
+    //     return this.calculateDateString(day, month, year);
+    // },
 
-    calculateDateString: function(day, month, year) {
+    Date2AapiDate: function(date) {
+        day = date.getDate()
+        month = date.getMonth() + 1;
+        year = date.getFullYear();
+
         var dayString = day.toString();
         var monthString = month.toString();
         if(day < 10) {
@@ -128,7 +137,7 @@ var AAPI = {
             monthString = '0' + monthString;
         } 
         return year + '-' + monthString + '-' + dayString;
-    }
+    },
 }
 
 // AllData.end();

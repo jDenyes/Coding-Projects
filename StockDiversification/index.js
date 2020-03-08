@@ -1,5 +1,6 @@
-document.getElementById("AddStockButton").onclick = function() {SpawnInputStockText()};
+// document.getElementById("AddStockButton").onclick = function() {SpawnInputStockText()};
 
-function SpawnInputStockText() {
+// function SpawnInputStockText() {
     
-}
+// }
+
