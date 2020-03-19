@@ -17,23 +17,26 @@ app.get('/', (req, res) => {
     res.end();
 });
 
-function callback(data, res) {
+function sendStockDataToWebsite(stockPrice, res) {
     console.log("retrieved data successfully");
-    console.log(data);
+    console.log(stockPrice);
 
-    res.send(data);
+    res.send(stockPrice);
     res.end();
 }
 
 app.post('/', (req, res) => {
     console.log('POST /');
     console.log("Incoming request:\t" + req.body);
-    ticker = req.body.TickerSymbol; 
-    quantity = req.body.Quantity;
 
-    console.log(quantity + " " + ticker);
-    let url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=".concat(ticker.concat('&outputsize=full&apikey=7KZAUZJR7I5MDRU0'));
-    AAPI.GetCurrentStockPrice(url, callback, res);
+    StockResponse = {
+        "ticker" : req.body.TickerSymbol,
+        "quantity" : req.body.quantity,
+        "Price" : 0,
+    };
+
+    console.log(StockResponse);
+    AAPI.GetCurrentStockPrice(StockResponse, sendStockDataToWebsite, res);
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}`));

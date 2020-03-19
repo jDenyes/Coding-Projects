@@ -1,4 +1,4 @@
-
+const https = require('https');
 
 // const options = {
 //     hostname    : 'https://www.alphavantage.co',
@@ -11,9 +11,9 @@
 // var temp1 = getCurrentStockPrice(url, AlphaCallBack);
 
 var AAPI = {
-    GetCurrentStockPrice: function(url, next, htmlRes) {
-        const https = require('https');
-        // const request   = require('request');
+    GetCurrentStockPrice: function(StockResponse, next, htmlRes) {
+
+        let url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=".concat(StockResponse.ticker.concat('&outputsize=full&apikey=7KZAUZJR7I5MDRU0'));
 
         const StockData = https.request(url, (res) => {
             let data = '';
@@ -40,7 +40,8 @@ var AAPI = {
                             var result = TodaysData['4. close'];
 
                             if(result != undefined) {
-                                next(result, htmlRes);
+                                StockResponse.Price = result;
+                                next(StockResponse, htmlRes);
                             } else {
                                 console.log("entering  errorstate, API call is out of date");
                                 while(1);
