@@ -13,7 +13,8 @@ const https = require('https');
 var AAPI = {
     GetCurrentStockPrice: function(StockResponse, next, htmlRes) {
 
-        let url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=".concat(StockResponse.ticker.concat('&outputsize=full&apikey=7KZAUZJR7I5MDRU0'));
+        let url = "https://www.alphavantage.co/query?function=\TIME_SERIES_DAILY&symbol=".concat(
+            StockResponse.Ticker.concat('&outputsize=full&apikey=7KZAUZJR7I5MDRU0'));
 
         const StockData = https.request(url, (res) => {
             let data = '';
@@ -26,33 +27,33 @@ var AAPI = {
             // this gets called when the data has completed coming in
             res.on('end', (e) => {
                 var JsonObject = JSON.parse(data);
-                if(JsonObject['Error Message'] != undefined) {
+                if (JsonObject['Error Message'] != undefined) {
                     console.log(JsonObject['Error Message']);
                 }
-                if(JsonObject != undefined) {
+                if (JsonObject != undefined) {
                     let TodaysData = 0;
                     let CurrentDate = new Date();
                     let DateString = this.Date2AapiDate(CurrentDate);
-                    
-                    do {
-                        TodaysData = JsonObject['Time Series (Daily)'][DateString];
-                        if(TodaysData != undefined) {
-                            var result = TodaysData['4. close'];
+                    if (JsonObject['Time Series (Daily)'] != undefined) {
+                        do {
+                            TodaysData = JsonObject['Time Series (Daily)'][DateString];
+                            if(TodaysData != undefined) {
+                                var result = TodaysData['4. close'];
 
-                            if(result != undefined) {
-                                StockResponse.Price = result;
-                                next(StockResponse, htmlRes);
+                                if(result != undefined) {
+                                    StockResponse.Price = result;
+                                    next(StockResponse, htmlRes);
+                                } else {
+                                    console.log("entering  errorstate, API call is out of date");
+                                    while (1);
+                                }
                             } else {
-                                console.log("entering  errorstate, API call is out of date");
-                                while(1);
+                                CurrentDate = this.GoBackOneDay(CurrentDate);
+                                DateString = this.Date2AapiDate(CurrentDate);
+                                console.log(DateString);
                             }
-                        } else {
-                            CurrentDate = this.GoBackOneDay(CurrentDate);
-                            DateString = this.Date2AapiDate(CurrentDate);
-                            console.log(DateString);
-                        }
-                    } while(result == undefined); 
-
+                        } while(result == undefined); 
+                    }
                 } else {
                     console.log("No JSON data received");
                 }

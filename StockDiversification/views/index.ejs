@@ -4,39 +4,46 @@
 <head>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script type="text/javascript" src="./index.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 </head>
 
 <body>
     <h1> Jacob's Stock Diversification Tool </h1>
     
     <div id="loginDiv">
-        This is for the login button. Doesn't need to be a class, just give it an ID. this should be able to flooat to the top right of the corner or something
         <button id="LoginButton">Login</button>
     </div>
 
     <div id="AddStockDiv">
-        <button id="AddStockButton">AddStock</button><br><br>
         <form action="/" method="post">
             <div id="StockInput">
-                <label id = "QuantityLabel" for="QuantityInput">Quantity</label>
-                <input type="text" name="Quantity" id="QuantityInput">
                 <label id = "TickerLabel" for="TickerInput">Ticker</label>
                 <input type="text" name="TickerSymbol" id="TickerInput">
-                <input type="submit" value="Submit" id = "TickerSubmit">
+                <label id = "QuantityLabel" for="QuantityInput">Quantity</label>
+                <input type="text" name="Quantity" id="QuantityInput">
+                <input type="submit" value="Add Stock" id = "TickerSubmit">
             </div>
         </form><br><br>
         <!-- <form action="/" method="post">
-            <div id="StockInput">
+            <div id="StockInput">d
                 <label id = "TickerLabel" for="TickerInput">Ticker</label>
                 <input type="text" name="TickerSymbol" id="TickerInput">
                 <input type="submit" value="Submit" id = "TickerSubmit">
             </div>
         </form> -->
     </div>
-
+    <br><br><br><br><br><br><br><br>
     <div id = "container">
-        <p>Some title for a graph</p>
+        <p>Some title for a graph.</p>
+        <canvas id ="TheCanvas" width="600" height="200"></canvas>
+        <br><br>
+        <% if(StockDataBack !== null){ %>
+            <p><%= StockDataBack.Price %></p>
+        <% } else { %>
+            <p>There is no data?</p>
+        <% } %>
     </div>
+    <button id ="PlayButton"></button>
 
 </body>
 </html>

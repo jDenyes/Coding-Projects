@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="./index.js"></script>
+</head>
+
+<body>
+    <h1> Jacob's Stock Diversification Tool </h1>
+    
+    <div id="loginDiv">
+        <button id="LoginButton">Login</button>
+    </div>
+
+    <div id="AddStockDiv">
+        <button id="AddStockButton">AddStock</button><br><br>
+        <form action="/" method="post">
+            <div id="StockInput">
+                <label id = "QuantityLabel" for="QuantityInput">Quantity</label>
+                <input type="text" name="Quantity" id="QuantityInput">
+                <label id = "TickerLabel" for="TickerInput">Ticker</label>
+                <input type="text" name="TickerSymbol" id="TickerInput">
+                <input type="submit" value="Submit" id = "TickerSubmit">
+            </div>
+        </form><br><br>
+        <!-- <form action="/" method="post">
+            <div id="StockInput">
+                <label id = "TickerLabel" for="TickerInput">Ticker</label>
+                <input type="text" name="TickerSymbol" id="TickerInput">
+                <input type="submit" value="Submit" id = "TickerSubmit">
+            </div>
+        </form> -->
+    </div>
+
+    <div id = "container">
+        <p>Some title for a graph</p>
+    </div>
+
+</body>
+</html>
