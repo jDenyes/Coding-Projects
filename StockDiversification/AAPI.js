@@ -11,6 +11,33 @@ const https = require('https');
 // var temp1 = getCurrentStockPrice(url, AlphaCallBack);
 
 var AAPI = {
+
+    GetTimeSeriesDaily: function(StockResponse, next, days) {
+        let url = "https://www.alphavantage.co/query?function=\TIME_SERIES_DAILY&symbol=".concat(
+            StockResponse.Ticker.concat('&outputsize=full&apikey=7KZAUZJR7I5MDRU0'));
+
+        const StockData = https.request(url, (res) => {
+            let data = '';
+
+            //this gets called on each chunk of data
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+
+            // this gets called when the data has completed coming in
+            res.on('end', (e) => {
+                var JsonObject = JSON.parse(data);
+                if (JsonObject['Error Message'] != undefined) {
+                    console.log(JsonObject['Error Message']);
+                }
+                if (JsonObject != undefined) {
+                    next(JsonObject, days);
+                }
+            });
+        });
+        StockData.end();
+    },
+
     GetCurrentStockPrice: function(StockResponse, next, htmlRes) {
 
         let url = "https://www.alphavantage.co/query?function=\TIME_SERIES_DAILY&symbol=".concat(
@@ -31,6 +58,7 @@ var AAPI = {
                     console.log(JsonObject['Error Message']);
                 }
                 if (JsonObject != undefined) {
+
                     let TodaysData = 0;
                     let CurrentDate = new Date();
                     let DateString = this.Date2AapiDate(CurrentDate);
@@ -50,7 +78,6 @@ var AAPI = {
                             } else {
                                 CurrentDate = this.GoBackOneDay(CurrentDate);
                                 DateString = this.Date2AapiDate(CurrentDate);
-                                console.log(DateString);
                             }
                         } while(result == undefined); 
                     }
@@ -90,15 +117,19 @@ var AAPI = {
         month = date.getMonth();
         year = date.getFullYear();
 
-        if(day > 1) {
+        if(day > 0) {
             day = day - 1;
         } else {
-            if(month > 1) {
+
+            if(month > 0) {
                 month = month - 1;
+                day = 32;
             } else {
                 year = year - 1;
+                month = 12;
             }
         }
+
         return new Date(year, month, day);
     },
 
