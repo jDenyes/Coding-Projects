@@ -1,4 +1,4 @@
 Stock Tickers
-MFST, 10
-AMD, 5
-ENB, 20
+AMD,50,
+CHTR,10,
+KBE,100,

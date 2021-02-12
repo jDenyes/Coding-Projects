@@ -86,3 +86,4 @@ let ReturnData = null;
 
 // ReturnData = AAPI.MakeApiCall(AAPI.GetTimeSeriesDaily, AAPI.GetMovingAverage, ticker, 50);
 AAPI.ReadTickers();
+// AAPI.MakeApiCall("TIME_SERIES_DAILY", GetCurrentStockPrice, "MSFT", null);
