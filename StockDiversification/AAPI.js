@@ -89,19 +89,24 @@ var AAPI = {
         }
     },
 
+    // 'a+': Open file for reading and appending. The file is created if it does not exist.
+    // 'ax+': Like 'a+' but fails if the path exists.
+    // 'as': Open file for appending in synchronous mode. The file is created if it does not exist.
+    // 'as+': Open file for reading and appending in synchronous mode. The file is created if it does not exist.
+
     // writes Prices of tickers from Tickers.txt to TickerPrices.txt
     UpdateTickerValues: function(data, graphInfo) {
         price = AAPI.GetCurrentStockPrice(data);
-
+            console.log("appending information to TickerPrices.txt for stock: " + graphInfo.Ticker);
             fs.appendFile("TickerPrices.txt", graphInfo.Ticker + ", " + graphInfo.Quantity + ", " + price + "\n", null, (err) => {
                 if (err) {
                     throw err;
                 }
-                console.log("appended data to the file");
+                console.log("appended data to the file for stock: " + graphInfo.Ticker);
             });
     },
 
-    // For reading ticker file
+    // For reading ticker file  
     ReadTickers: function() {
         // 0. Delete old Ticker Prices File
         fs.writeFile('TickerPrices.txt', "", (err) => {
@@ -109,11 +114,12 @@ var AAPI = {
                 console.log(err)
                 return
             }
-            console.log("cleared file")
+            console.log("0: cleared file")
         })
 
         // 1. Read from file to get stocks to update
         fs.readFile('Tickers.txt', 'utf8', (err, data) => {
+            console.log("opening tickers.txt for reading");
             if (err) {
                 console.log(err);
                 return;
@@ -125,7 +131,7 @@ var AAPI = {
             let tickers = [];
             let quantities = [];
 
-            for (var i = 1; i < splitData_byLine.length; i++) {
+            for (var i = 0; i < splitData_byLine.length; i++) {
                 // console.log(splitData_byLine[i]);
                 let splitLine = splitData_byLine[i].split(",");
 
@@ -145,8 +151,13 @@ var AAPI = {
                 tickers.push(splitLine[0]);
                 quantities.push(splitLine[1]);
 
+                console.log("1." + i + ": Read Ticker making API call");
+
                 this.MakeApiCall("TIME_SERIES_DAILY", AAPI.UpdateTickerValues, ticker, graphInfo);
+                // new line of code waht does this break
             }
+            // console.log("closing tickers.txt after making API calls");
+            // fs.close("Tickers.txt");
 
             return [tickers, quantities];
 

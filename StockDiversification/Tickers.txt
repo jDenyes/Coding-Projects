@@ -1,4 +1,3 @@
-Stock Tickers
 AMD,50,
 CHTR,10,
 KBE,100,
