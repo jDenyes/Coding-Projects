@@ -89,6 +89,21 @@ var AAPI = {
         }
     },
 
+    GetSector: function(data) {
+        if (data == undefined) {
+            console.log("data undefined");
+        }
+        let sector = data["Sector"];
+        console.log("sector is " + sector);
+        return sector;
+    },
+
+    UpdateSectorDiversification() {
+        fs.readFile("Tickers.txt", "utf8", (err, data) => {
+            
+        })
+    }
+
     // 'a+': Open file for reading and appending. The file is created if it does not exist.
     // 'ax+': Like 'a+' but fails if the path exists.
     // 'as': Open file for appending in synchronous mode. The file is created if it does not exist.
